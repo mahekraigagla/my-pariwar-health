@@ -1,10 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart, Shield, Users } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-family-health.jpg";
+import Navbar from "./Navbar";
 
 const HeroSection = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (user) {
+      // User is logged in, navigate to dashboard (for now, stay on same page)
+      console.log('User is logged in, navigate to dashboard');
+    } else {
+      // User is not logged in, navigate to auth page
+      navigate('/auth');
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden">
+      <Navbar />
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10 animate-pulse">
         <div className="w-full h-full bg-repeat" style={{
@@ -38,8 +55,8 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="hero" size="lg" className="group">
-                Get Started
+              <Button variant="hero" size="lg" className="group" onClick={handleGetStarted}>
+                {user ? 'Go to Dashboard' : 'Get Started'}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white/20">
