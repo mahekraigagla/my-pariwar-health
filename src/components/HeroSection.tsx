@@ -11,8 +11,8 @@ const HeroSection = () => {
 
   const handleGetStarted = () => {
     if (user) {
-      // User is logged in, navigate to dashboard (for now, stay on same page)
-      console.log('User is logged in, navigate to dashboard');
+      // User is logged in, navigate to dashboard
+      navigate('/dashboard');
     } else {
       // User is not logged in, navigate to auth page
       navigate('/auth');
