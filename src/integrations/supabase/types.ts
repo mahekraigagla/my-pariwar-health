@@ -14,6 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
+      doctors: {
+        Row: {
+          address: string | null
+          created_at: string
+          doctor_name: string
+          email: string | null
+          family_member_id: string
+          google_maps_link: string | null
+          hospital_name: string | null
+          id: string
+          notes: string | null
+          phone: string | null
+          specialization: string
+          updated_at: string
+          visiting_hours: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          doctor_name: string
+          email?: string | null
+          family_member_id: string
+          google_maps_link?: string | null
+          hospital_name?: string | null
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          specialization: string
+          updated_at?: string
+          visiting_hours?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          doctor_name?: string
+          email?: string | null
+          family_member_id?: string
+          google_maps_link?: string | null
+          hospital_name?: string | null
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          specialization?: string
+          updated_at?: string
+          visiting_hours?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctors_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_members: {
+        Row: {
+          age: number | null
+          allergies: string | null
+          blood_group: string | null
+          created_at: string
+          email: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          gender: string | null
+          id: string
+          is_account_head: boolean | null
+          name: string
+          phone: string | null
+          relation: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
+          created_at?: string
+          email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          gender?: string | null
+          id?: string
+          is_account_head?: boolean | null
+          name: string
+          phone?: string | null
+          relation: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          allergies?: string | null
+          blood_group?: string | null
+          created_at?: string
+          email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          gender?: string | null
+          id?: string
+          is_account_head?: boolean | null
+          name?: string
+          phone?: string | null
+          relation?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      medical_documents: {
+        Row: {
+          created_at: string
+          document_date: string
+          document_type: string
+          family_member_id: string
+          file_name: string | null
+          file_url: string | null
+          id: string
+          notes: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          document_date: string
+          document_type: string
+          family_member_id: string
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          document_date?: string
+          document_type?: string
+          family_member_id?: string
+          file_name?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_documents_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medical_timeline: {
+        Row: {
+          created_at: string
+          event_date: string
+          event_type: string
+          family_member_id: string
+          id: string
+          notes: string | null
+          severity: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_date: string
+          event_type: string
+          family_member_id: string
+          id?: string
+          notes?: string | null
+          severity?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_date?: string
+          event_type?: string
+          family_member_id?: string
+          id?: string
+          notes?: string | null
+          severity?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_timeline_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -40,6 +241,104 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      reminder_logs: {
+        Row: {
+          family_member_id: string
+          id: string
+          logged_at: string
+          notes: string | null
+          reminder_id: string
+          status: string
+        }
+        Insert: {
+          family_member_id: string
+          id?: string
+          logged_at?: string
+          notes?: string | null
+          reminder_id: string
+          status: string
+        }
+        Update: {
+          family_member_id?: string
+          id?: string
+          logged_at?: string
+          notes?: string | null
+          reminder_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminder_logs_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reminder_logs_reminder_id_fkey"
+            columns: ["reminder_id"]
+            isOneToOne: false
+            referencedRelation: "reminders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reminders: {
+        Row: {
+          created_at: string
+          dosage: string | null
+          end_date: string | null
+          family_member_id: string
+          frequency: string | null
+          id: string
+          is_active: boolean | null
+          notes: string | null
+          reminder_time: string | null
+          reminder_type: string
+          start_date: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dosage?: string | null
+          end_date?: string | null
+          family_member_id: string
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          notes?: string | null
+          reminder_time?: string | null
+          reminder_type: string
+          start_date: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dosage?: string | null
+          end_date?: string | null
+          family_member_id?: string
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          notes?: string | null
+          reminder_time?: string | null
+          reminder_type?: string
+          start_date?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reminders_family_member_id_fkey"
+            columns: ["family_member_id"]
+            isOneToOne: false
+            referencedRelation: "family_members"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
