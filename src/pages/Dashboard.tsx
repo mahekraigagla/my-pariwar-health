@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 import { 
   Heart, 
   Plus, 
@@ -21,58 +19,27 @@ import {
   Upload
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
-import AddMemberDialog from '@/components/family/AddMemberDialog';
-import FamilyMemberCard from '@/components/family/FamilyMemberCard';
-
-interface FamilyMember {
-  id: string;
-  name: string;
-  relation: string;
-  age?: number;
-  gender?: string;
-  phone?: string;
-  email?: string;
-}
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
-  const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      fetchFamilyMembers();
-    }
-  }, [user]);
+  // Mock data for demonstration
+  const familyMembers = [
+    { id: 1, name: 'John Doe', relation: 'Self', age: 35, lastCheckup: '2024-01-15' },
+    { id: 2, name: 'Jane Doe', relation: 'Wife', age: 32, lastCheckup: '2024-01-10' },
+    { id: 3, name: 'Mike Doe', relation: 'Son', age: 8, lastCheckup: '2024-01-05' },
+  ];
 
-  const fetchFamilyMembers = async () => {
-    if (!user) return;
+  const medications = [
+    { id: 1, name: 'Vitamin D3', dosage: '1000 IU', frequency: 'Daily', nextDose: '8:00 AM' },
+    { id: 2, name: 'Metformin', dosage: '500mg', frequency: 'Twice daily', nextDose: '6:00 PM' },
+  ];
 
-    try {
-      const { data, error } = await supabase
-        .from('family_members')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setFamilyMembers(data || []);
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: "Failed to load family members",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMemberAdded = () => {
-    fetchFamilyMembers();
-  };
+  const appointments = [
+    { id: 1, doctor: 'Dr. Smith', type: 'Annual Checkup', date: '2024-02-15', time: '10:00 AM' },
+    { id: 2, doctor: 'Dr. Johnson', type: 'Dental Cleaning', date: '2024-02-20', time: '2:00 PM' },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
@@ -112,7 +79,7 @@ const Dashboard = () => {
                   <Pill className="w-6 h-6 text-secondary" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
+                  <p className="text-2xl font-bold">{medications.length}</p>
                   <p className="text-sm text-muted-foreground">Active Medications</p>
                 </div>
               </div>
@@ -126,7 +93,7 @@ const Dashboard = () => {
                   <Calendar className="w-6 h-6 text-accent" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
+                  <p className="text-2xl font-bold">{appointments.length}</p>
                   <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
                 </div>
               </div>
@@ -219,32 +186,36 @@ const Dashboard = () => {
           <TabsContent value="family" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Family Members</h2>
-              <AddMemberDialog onMemberAdded={handleMemberAdded} />
+              <Button className="gap-2">
+                <Plus className="w-4 h-4" />
+                Add Family Member
+              </Button>
             </div>
             
-            {loading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
-                <p className="mt-4 text-muted-foreground">Loading family members...</p>
-              </div>
-            ) : familyMembers.length === 0 ? (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No Family Members Yet</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Start by adding your family members to manage their health information.
-                  </p>
-                  <AddMemberDialog onMemberAdded={handleMemberAdded} />
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {familyMembers.map((member) => (
-                  <FamilyMemberCard key={member.id} member={member} />
-                ))}
-              </div>
-            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {familyMembers.map((member) => (
+                <Card key={member.id}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                        <Users className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold">{member.name}</h3>
+                        <p className="text-sm text-muted-foreground">{member.relation}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Age:</span> {member.age}</p>
+                      <p><span className="font-medium">Last Checkup:</span> {member.lastCheckup}</p>
+                    </div>
+                    <Button variant="outline" className="w-full mt-4">
+                      View Profile
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           {/* Medications Tab */}
@@ -257,19 +228,31 @@ const Dashboard = () => {
               </Button>
             </div>
             
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Pill className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Medications Yet</h3>
-                <p className="text-muted-foreground mb-4">
-                  Add medications and reminders for your family members.
-                </p>
-                <Button className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  Add Medication
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {medications.map((med) => (
+                <Card key={med.id}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
+                        <Pill className="w-6 h-6 text-secondary" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold">{med.name}</h3>
+                        <p className="text-sm text-muted-foreground">{med.dosage}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Frequency:</span> {med.frequency}</p>
+                      <p><span className="font-medium">Next Dose:</span> {med.nextDose}</p>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <Button variant="outline" className="flex-1">Edit</Button>
+                      <Button variant="outline" className="flex-1">Mark Taken</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           {/* Appointments Tab */}
@@ -282,19 +265,31 @@ const Dashboard = () => {
               </Button>
             </div>
             
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Appointments Yet</h3>
-                <p className="text-muted-foreground mb-4">
-                  Schedule appointments for your family members.
-                </p>
-                <Button className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  Schedule Appointment
-                </Button>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {appointments.map((apt) => (
+                <Card key={apt.id}>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
+                        <Calendar className="w-6 h-6 text-accent" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold">{apt.type}</h3>
+                        <p className="text-sm text-muted-foreground">{apt.doctor}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <p><span className="font-medium">Date:</span> {apt.date}</p>
+                      <p><span className="font-medium">Time:</span> {apt.time}</p>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <Button variant="outline" className="flex-1">Reschedule</Button>
+                      <Button variant="outline" className="flex-1">Cancel</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           {/* Reports Tab */}
