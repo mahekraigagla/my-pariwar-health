@@ -33,6 +33,7 @@ const RemindersList = ({ memberId, refresh }: RemindersListProps) => {
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log('RemindersList: Fetching reminders for member:', memberId, 'refresh:', refresh);
     fetchReminders();
   }, [memberId, refresh]);
 
@@ -45,8 +46,10 @@ const RemindersList = ({ memberId, refresh }: RemindersListProps) => {
         .order('start_date', { ascending: false });
 
       if (error) throw error;
+      console.log('RemindersList: Fetched reminders:', data);
       setReminders(data || []);
     } catch (error: any) {
+      console.error('RemindersList: Error fetching reminders:', error);
       toast({
         title: "Error",
         description: "Failed to load reminders",

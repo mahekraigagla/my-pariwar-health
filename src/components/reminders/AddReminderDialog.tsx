@@ -55,6 +55,8 @@ const AddReminderDialog = ({ memberId, onReminderAdded }: AddReminderDialogProps
 
       if (error) throw error;
 
+      console.log('AddReminderDialog: Reminder added successfully');
+      
       toast({
         title: "Success!",
         description: "Reminder added successfully!",
@@ -73,6 +75,7 @@ const AddReminderDialog = ({ memberId, onReminderAdded }: AddReminderDialogProps
       setOpen(false);
       onReminderAdded();
     } catch (error: any) {
+      console.error('AddReminderDialog: Error adding reminder:', error);
       toast({
         title: "Error",
         description: error.message,

@@ -37,7 +37,6 @@ interface FamilyMember {
 const Dashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState('overview');
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -140,7 +139,7 @@ const Dashboard = () => {
                   <Bell className="w-6 h-6 text-destructive" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">3</p>
+                  <p className="text-2xl font-bold">0</p>
                   <p className="text-sm text-muted-foreground">Pending Alerts</p>
                 </div>
               </div>
@@ -148,96 +147,74 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Main Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="family">Family</TabsTrigger>
-            <TabsTrigger value="medications">Medications</TabsTrigger>
-            <TabsTrigger value="appointments">Appointments</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-            <TabsTrigger value="emergency">Emergency</TabsTrigger>
-          </TabsList>
+        {/* Main Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          {/* Add Family Member */}
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Plus className="w-8 h-8 text-primary" />
+              </div>
+              <CardTitle className="text-xl">Add Family Member</CardTitle>
+              <CardDescription>
+                Add new family members to manage their health information
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <AddMemberDialog onMemberAdded={handleMemberAdded} />
+            </CardContent>
+          </Card>
 
-          {/* Overview Tab */}
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Activity className="w-5 h-5" />
-                    Recent Activity
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    <p className="text-sm">Medication reminder: Vitamin D3 taken</p>
-                    <Badge variant="secondary">2h ago</Badge>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                    <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                    <p className="text-sm">Blood pressure reading added</p>
-                    <Badge variant="secondary">1d ago</Badge>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                    <div className="w-2 h-2 bg-accent rounded-full"></div>
-                    <p className="text-sm">Appointment scheduled with Dr. Smith</p>
-                    <Badge variant="secondary">3d ago</Badge>
-                  </div>
-                </CardContent>
-              </Card>
+          {/* View Members */}
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-secondary" />
+              </div>
+              <CardTitle className="text-xl">View Members</CardTitle>
+              <CardDescription>
+                View and manage all your family members' profiles
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-sm text-muted-foreground mb-4">
+                View all family members below in the table
+              </p>
+              <Badge variant="outline" className="text-lg px-4 py-2">
+                {familyMembers.length} Members
+              </Badge>
+            </CardContent>
+          </Card>
+        </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Bell className="w-5 h-5" />
-                    Today's Reminders
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
-                    <div>
-                      <p className="font-medium">Take Vitamin D3</p>
-                      <p className="text-sm text-muted-foreground">1000 IU</p>
-                    </div>
-                    <Badge>8:00 AM</Badge>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-secondary/10 rounded-lg">
-                    <div>
-                      <p className="font-medium">Blood Pressure Check</p>
-                      <p className="text-sm text-muted-foreground">Weekly monitoring</p>
-                    </div>
-                    <Badge>Evening</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* Family Tab */}
-          <TabsContent value="family" className="space-y-6">
+        {/* Family Members Section */}
+        <Card>
+          <CardHeader>
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Family Members</h2>
+              <div>
+                <CardTitle className="text-2xl">Family Members</CardTitle>
+                <CardDescription>
+                  Click on any member to view their detailed health profile
+                </CardDescription>
+              </div>
               <AddMemberDialog onMemberAdded={handleMemberAdded} />
             </div>
-            
+          </CardHeader>
+          <CardContent>
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
                 <p className="mt-4 text-muted-foreground">Loading family members...</p>
               </div>
             ) : familyMembers.length === 0 ? (
-              <Card>
-                <CardContent className="p-8 text-center">
-                  <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No Family Members Yet</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Start by adding your family members to manage their health information.
-                  </p>
-                  <AddMemberDialog onMemberAdded={handleMemberAdded} />
-                </CardContent>
-              </Card>
+              <div className="text-center py-12">
+                <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2">No Family Members Yet</h3>
+                <p className="text-muted-foreground mb-6">
+                  Start by adding your family members to manage their health information.
+                </p>
+                <AddMemberDialog onMemberAdded={handleMemberAdded} />
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {familyMembers.map((member) => (
@@ -245,155 +222,8 @@ const Dashboard = () => {
                 ))}
               </div>
             )}
-          </TabsContent>
-
-          {/* Medications Tab */}
-          <TabsContent value="medications" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Medications</h2>
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Add Medication
-              </Button>
-            </div>
-            
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Pill className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Medications Yet</h3>
-                <p className="text-muted-foreground mb-4">
-                  Add medications and reminders for your family members.
-                </p>
-                <Button className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  Add Medication
-                </Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Appointments Tab */}
-          <TabsContent value="appointments" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Appointments</h2>
-              <Button className="gap-2">
-                <Plus className="w-4 h-4" />
-                Schedule Appointment
-              </Button>
-            </div>
-            
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Appointments Yet</h3>
-                <p className="text-muted-foreground mb-4">
-                  Schedule appointments for your family members.
-                </p>
-                <Button className="gap-2">
-                  <Plus className="w-4 h-4" />
-                  Schedule Appointment
-                </Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Reports Tab */}
-          <TabsContent value="reports" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Medical Reports</h2>
-              <Button className="gap-2">
-                <Upload className="w-4 h-4" />
-                Upload Report
-              </Button>
-            </div>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  Recent Reports
-                </CardTitle>
-                <CardDescription>
-                  Organize and access your family's medical reports
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-primary" />
-                    <div>
-                      <p className="font-medium">Blood Test Results</p>
-                      <p className="text-sm text-muted-foreground">January 15, 2024</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </div>
-                <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-secondary" />
-                    <div>
-                      <p className="font-medium">X-Ray Report</p>
-                      <p className="text-sm text-muted-foreground">January 10, 2024</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    <Download className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Emergency Tab */}
-          <TabsContent value="emergency" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Emergency Health Cards</h2>
-              <Button variant="destructive" className="gap-2">
-                <Shield className="w-4 h-4" />
-                Generate Emergency Card
-              </Button>
-            </div>
-            
-            <Card className="border-destructive/20 bg-destructive/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-destructive">
-                  <Shield className="w-5 h-5" />
-                  Emergency Information
-                </CardTitle>
-                <CardDescription>
-                  Quick access cards for emergency situations
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-background rounded-lg border">
-                    <h3 className="font-semibold mb-2">Emergency Contacts</h3>
-                    <p className="text-sm text-muted-foreground">Dr. Smith: (555) 123-4567</p>
-                    <p className="text-sm text-muted-foreground">Emergency: 911</p>
-                  </div>
-                  <div className="p-4 bg-background rounded-lg border">
-                    <h3 className="font-semibold mb-2">Allergies</h3>
-                    <p className="text-sm text-muted-foreground">Penicillin, Shellfish</p>
-                  </div>
-                  <div className="p-4 bg-background rounded-lg border">
-                    <h3 className="font-semibold mb-2">Blood Type</h3>
-                    <p className="text-sm text-muted-foreground">A+</p>
-                  </div>
-                  <div className="p-4 bg-background rounded-lg border">
-                    <h3 className="font-semibold mb-2">Current Medications</h3>
-                    <p className="text-sm text-muted-foreground">Vitamin D3, Metformin</p>
-                  </div>
-                </div>
-                <Button variant="outline" className="w-full">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download QR Code Card
-                </Button>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
