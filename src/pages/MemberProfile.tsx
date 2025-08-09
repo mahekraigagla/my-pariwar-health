@@ -14,6 +14,10 @@ import AddTimelineDialog from '@/components/timeline/AddTimelineDialog';
 import AddReminderDialog from '@/components/reminders/AddReminderDialog';
 import EmergencyCardGenerator from '@/components/emergency/EmergencyCardGenerator';
 import AddDoctorDialog from '@/components/doctors/AddDoctorDialog';
+import DocumentsList from '@/components/documents/DocumentsList';
+import TimelineList from '@/components/timeline/TimelineList';
+import RemindersList from '@/components/reminders/RemindersList';
+import DoctorsList from '@/components/doctors/DoctorsList';
 
 interface FamilyMember {
   id: string;
@@ -37,6 +41,7 @@ const MemberProfile = () => {
   const [member, setMember] = useState<FamilyMember | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     fetchMember();
@@ -65,6 +70,10 @@ const MemberProfile = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
   };
 
   if (loading) {
@@ -248,66 +257,30 @@ const MemberProfile = () => {
           <TabsContent value="documents" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Medical Documents</h2>
-              <UploadDocumentDialog memberId={member.id} onDocumentUploaded={() => {}} />
+              <UploadDocumentDialog memberId={member.id} onDocumentUploaded={handleRefresh} />
             </div>
             
-            <Card>
-              <CardHeader>
-                <CardTitle>Document Library</CardTitle>
-                <CardDescription>
-                  All medical documents for {member.name}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  No documents uploaded yet. Click "Upload Document" to get started.
-                </div>
-              </CardContent>
-            </Card>
+            <DocumentsList memberId={member.id} refresh={refreshTrigger} />
           </TabsContent>
 
           {/* Timeline Tab */}
           <TabsContent value="timeline" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Medical Timeline</h2>
-              <AddTimelineDialog memberId={member.id} onTimelineAdded={() => {}} />
+              <AddTimelineDialog memberId={member.id} onTimelineAdded={handleRefresh} />
             </div>
             
-            <Card>
-              <CardHeader>
-                <CardTitle>Health History</CardTitle>
-                <CardDescription>
-                  Medical timeline for {member.name}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  No timeline entries yet. Click "Add Entry" to start tracking medical history.
-                </div>
-              </CardContent>
-            </Card>
+            <TimelineList memberId={member.id} refresh={refreshTrigger} />
           </TabsContent>
 
           {/* Reminders Tab */}
           <TabsContent value="reminders" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Smart Reminders</h2>
-              <AddReminderDialog memberId={member.id} onReminderAdded={() => {}} />
+              <AddReminderDialog memberId={member.id} onReminderAdded={handleRefresh} />
             </div>
             
-            <Card>
-              <CardHeader>
-                <CardTitle>Active Reminders</CardTitle>
-                <CardDescription>
-                  Medication and appointment reminders for {member.name}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  No reminders set yet. Click "Add Reminder" to start setting up notifications.
-                </div>
-              </CardContent>
-            </Card>
+            <RemindersList memberId={member.id} refresh={refreshTrigger} />
           </TabsContent>
 
           {/* Emergency Tab */}
@@ -323,22 +296,10 @@ const MemberProfile = () => {
           <TabsContent value="doctors" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Doctor Directory</h2>
-              <AddDoctorDialog memberId={member.id} onDoctorAdded={() => {}} />
+              <AddDoctorDialog memberId={member.id} onDoctorAdded={handleRefresh} />
             </div>
             
-            <Card>
-              <CardHeader>
-                <CardTitle>Healthcare Providers</CardTitle>
-                <CardDescription>
-                  Doctors and healthcare providers for {member.name}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-8 text-muted-foreground">
-                  No doctors added yet. Click "Add Doctor" to start building your healthcare directory.
-                </div>
-              </CardContent>
-            </Card>
+            <DoctorsList memberId={member.id} refresh={refreshTrigger} />
           </TabsContent>
         </Tabs>
       </div>
