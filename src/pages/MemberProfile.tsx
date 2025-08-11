@@ -12,7 +12,7 @@ import Navbar from '@/components/Navbar';
 import UploadDocumentDialog from '@/components/documents/UploadDocumentDialog';
 import AddTimelineDialog from '@/components/timeline/AddTimelineDialog';
 import AddReminderDialog from '@/components/reminders/AddReminderDialog';
-import EmergencyCardGenerator from '@/components/emergency/EmergencyCardGenerator';
+import EnhancedEmergencyCard from '@/components/emergency/EnhancedEmergencyCard';
 import AddDoctorDialog from '@/components/doctors/AddDoctorDialog';
 import DocumentsList from '@/components/documents/DocumentsList';
 import TimelineList from '@/components/timeline/TimelineList';
@@ -154,152 +154,81 @@ const MemberProfile = () => {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="documents">Documents</TabsTrigger>
-            <TabsTrigger value="timeline">Timeline</TabsTrigger>
             <TabsTrigger value="reminders">Reminders</TabsTrigger>
-            <TabsTrigger value="emergency">Emergency</TabsTrigger>
-            <TabsTrigger value="doctors">Doctors</TabsTrigger>
+            <TabsTrigger value="timeline">Timeline</TabsTrigger>
+            <TabsTrigger value="emergency">Health Card</TabsTrigger>
           </TabsList>
 
-          {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setActiveTab('documents')}>
+            <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-primary" />
-                    Medical Documents
+                    <Bell className="w-5 h-5" />
+                    Active Reminders
                   </CardTitle>
-                  <CardDescription>
-                    Upload and manage medical reports, prescriptions, and bills
-                  </CardDescription>
+                  <CardDescription>Current medications and appointments</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button variant="outline" className="w-full">
-                    Manage Documents
-                  </Button>
+                  <RemindersList memberId={member.id} refresh={refreshTrigger} showLimited={true} />
                 </CardContent>
               </Card>
 
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setActiveTab('timeline')}>
+              <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-secondary" />
+                    <Clock className="w-5 h-5" />
+                    Recent Timeline
+                  </CardTitle>
+                  <CardDescription>Latest medical history entries</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <TimelineList memberId={member.id} refresh={refreshTrigger} showLimited={true} />
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reminders">
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2">
+                    <Bell className="w-5 h-5" />
+                    Reminders & Medications
+                  </CardTitle>
+                  <AddReminderDialog memberId={member.id} onReminderAdded={handleRefresh} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <RemindersList memberId={member.id} refresh={refreshTrigger} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="timeline">
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
                     Medical Timeline
                   </CardTitle>
-                  <CardDescription>
-                    Track medical history, treatments, and recovery progress
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" className="w-full">
-                    View Timeline
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setActiveTab('reminders')}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Bell className="w-5 h-5 text-accent" />
-                    Smart Reminders
-                  </CardTitle>
-                  <CardDescription>
-                    Set reminders for medicines, appointments, and checkups
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" className="w-full">
-                    Manage Reminders
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setActiveTab('emergency')}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-destructive" />
-                    Emergency Card
-                  </CardTitle>
-                  <CardDescription>
-                    Generate emergency health cards with QR codes
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" className="w-full">
-                    Generate Card
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setActiveTab('doctors')}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Users2 className="w-5 h-5 text-primary" />
-                    Doctor Directory
-                  </CardTitle>
-                  <CardDescription>
-                    Manage doctor contacts and hospital information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button variant="outline" className="w-full">
-                    View Doctors
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                  <AddTimelineDialog memberId={member.id} onTimelineAdded={handleRefresh} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <TimelineList memberId={member.id} refresh={refreshTrigger} />
+              </CardContent>
+            </Card>
           </TabsContent>
 
-          {/* Documents Tab */}
-          <TabsContent value="documents" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Medical Documents</h2>
-              <UploadDocumentDialog memberId={member.id} onDocumentUploaded={handleRefresh} />
+          <TabsContent value="emergency">
+            <div className="space-y-6">
+              <EnhancedEmergencyCard member={member} />
             </div>
-            
-            <DocumentsList memberId={member.id} refresh={refreshTrigger} />
-          </TabsContent>
-
-          {/* Timeline Tab */}
-          <TabsContent value="timeline" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Medical Timeline</h2>
-              <AddTimelineDialog memberId={member.id} onTimelineAdded={handleRefresh} />
-            </div>
-            
-            <TimelineList memberId={member.id} refresh={refreshTrigger} />
-          </TabsContent>
-
-          {/* Reminders Tab */}
-          <TabsContent value="reminders" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Smart Reminders</h2>
-              <AddReminderDialog memberId={member.id} onReminderAdded={handleRefresh} />
-            </div>
-            
-            <RemindersList memberId={member.id} refresh={refreshTrigger} />
-          </TabsContent>
-
-          {/* Emergency Tab */}
-          <TabsContent value="emergency" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Emergency Health Card</h2>
-            </div>
-            
-            <EmergencyCardGenerator member={member} />
-          </TabsContent>
-
-          {/* Doctors Tab */}
-          <TabsContent value="doctors" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Doctor Directory</h2>
-              <AddDoctorDialog memberId={member.id} onDoctorAdded={handleRefresh} />
-            </div>
-            
-            <DoctorsList memberId={member.id} refresh={refreshTrigger} />
           </TabsContent>
         </Tabs>
       </div>

@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             title: "Welcome!",
             description: "You have successfully signed in.",
           });
+          // Redirect to dashboard after successful sign in
+          window.location.href = '/dashboard';
         }
       }
     );

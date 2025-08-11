@@ -20,9 +20,10 @@ interface TimelineEntry {
 interface TimelineListProps {
   memberId: string;
   refresh: number;
+  showLimited?: boolean;
 }
 
-const TimelineList = ({ memberId, refresh }: TimelineListProps) => {
+const TimelineList = ({ memberId, refresh, showLimited = false }: TimelineListProps) => {
   const [timeline, setTimeline] = useState<TimelineEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -33,11 +34,17 @@ const TimelineList = ({ memberId, refresh }: TimelineListProps) => {
 
   const fetchTimeline = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('medical_timeline')
         .select('*')
         .eq('family_member_id', memberId)
         .order('event_date', { ascending: false });
+
+      if (showLimited) {
+        query = query.limit(3);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setTimeline(data || []);

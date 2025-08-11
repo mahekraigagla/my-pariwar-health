@@ -25,9 +25,10 @@ interface Reminder {
 interface RemindersListProps {
   memberId: string;
   refresh: number;
+  showLimited?: boolean;
 }
 
-const RemindersList = ({ memberId, refresh }: RemindersListProps) => {
+const RemindersList = ({ memberId, refresh, showLimited = false }: RemindersListProps) => {
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();

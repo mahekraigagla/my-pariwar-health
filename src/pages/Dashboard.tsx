@@ -23,6 +23,7 @@ import {
 import Navbar from '@/components/Navbar';
 import AddMemberDialog from '@/components/family/AddMemberDialog';
 import FamilyMemberCard from '@/components/family/FamilyMemberCard';
+import ViewMembersDialog from '@/components/family/ViewMembersDialog';
 
 interface FamilyMember {
   id: string;
@@ -150,7 +151,7 @@ const Dashboard = () => {
         {/* Main Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Add Family Member */}
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-8 h-8 text-primary" />
@@ -166,7 +167,7 @@ const Dashboard = () => {
           </Card>
 
           {/* View Members */}
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-secondary" />
@@ -177,51 +178,30 @@ const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-sm text-muted-foreground mb-4">
-                View all family members below in the table
-              </p>
-              <Badge variant="outline" className="text-lg px-4 py-2">
-                {familyMembers.length} Members
-              </Badge>
+              <ViewMembersDialog />
             </CardContent>
           </Card>
         </div>
 
-        {/* Family Members Section */}
+        {/* Quick Summary */}
         <Card>
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <div>
-                <CardTitle className="text-2xl">Family Members</CardTitle>
-                <CardDescription>
-                  Click on any member to view their detailed health profile
-                </CardDescription>
-              </div>
-              <AddMemberDialog onMemberAdded={handleMemberAdded} />
-            </div>
+            <CardTitle className="text-xl">Family Overview</CardTitle>
+            <CardDescription>
+              You have {familyMembers.length} family member{familyMembers.length !== 1 ? 's' : ''} registered
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
-                <p className="mt-4 text-muted-foreground">Loading family members...</p>
-              </div>
-            ) : familyMembers.length === 0 ? (
-              <div className="text-center py-12">
-                <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Family Members Yet</h3>
-                <p className="text-muted-foreground mb-6">
-                  Start by adding your family members to manage their health information.
+            <div className="text-center py-6">
+              <p className="text-muted-foreground mb-4">
+                Use the buttons above to add new members or view existing ones
+              </p>
+              {familyMembers.length > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  Click "View Members" to see all family members and access their health profiles
                 </p>
-                <AddMemberDialog onMemberAdded={handleMemberAdded} />
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {familyMembers.map((member) => (
-                  <FamilyMemberCard key={member.id} member={member} />
-                ))}
-              </div>
-            )}
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>

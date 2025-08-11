@@ -205,9 +205,9 @@ const AddReminderDialog = ({ memberId, onReminderAdded }: AddReminderDialogProps
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
-              {loading ? 'Adding...' : 'Add Reminder'}
-            </Button>
+        <Button type="submit" disabled={loading} className="w-full bg-green-600 hover:bg-green-700 text-white">
+          {loading ? 'Adding...' : 'Add Reminder'}
+        </Button>
           </div>
         </form>
       </DialogContent>
