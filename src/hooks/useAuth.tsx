@@ -45,8 +45,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             title: "Welcome!",
             description: "You have successfully signed in.",
           });
-          // Redirect to dashboard after successful sign in
-          window.location.href = '/dashboard';
+          // Don't force redirect here - let React Router handle it
         }
       }
     );
