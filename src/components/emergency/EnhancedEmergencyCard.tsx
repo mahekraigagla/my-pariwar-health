@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Shield, Download, QrCode, User, Phone, Heart } from 'lucide-react';
 import QRCode from 'qrcode';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface FamilyMember {
   id: string;
@@ -27,6 +28,8 @@ interface EnhancedEmergencyCardProps {
 const EnhancedEmergencyCard = ({ member }: EnhancedEmergencyCardProps) => {
   const { toast } = useToast();
   const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
+  const [pmhDialogOpen, setPmhDialogOpen] = useState(false);
+  const [pmhInput, setPmhInput] = useState('');
   const [emergencyData, setEmergencyData] = useState({
     blood_group: member.blood_group || '',
     allergies: member.allergies || '',
@@ -42,39 +45,49 @@ const EnhancedEmergencyCard = ({ member }: EnhancedEmergencyCardProps) => {
     setEmergencyData(prev => ({ ...prev, [field]: value }));
   };
 
+  const buildTimelineUrl = () => {
+    const base = `${window.location.origin}/member/${member.id}?tab=timeline`;
+    const pmh = emergencyData.medical_conditions?.trim();
+    return pmh ? `${base}&pmh=${encodeURIComponent(btoa(pmh))}` : base;
+  };
+
   const generateQRCode = async () => {
     try {
-      const emergencyUrl = `${window.location.origin}/emergency/${member.id}`;
-      const qrDataURL = await QRCode.toDataURL(emergencyUrl, {
-        width: 200,
-        margin: 2,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF'
-        }
+      const url = buildTimelineUrl();
+      const qrDataURL = await QRCode.toDataURL(url, {
+        width: 240,
+        margin: 1,
+        color: { dark: '#000000', light: '#FFFFFF' },
       });
       setQrCodeUrl(qrDataURL);
-      
       toast({
-        title: "QR Code Generated!",
-        description: "QR code generated successfully. It links to the emergency profile.",
+        title: 'QR Code Generated!',
+        description: 'QR links to the health timeline and embeds past history.',
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to generate QR code",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to generate QR code',
+        variant: 'destructive',
       });
     }
   };
 
+  const onGenerateClick = () => {
+    if (!emergencyData.medical_conditions?.trim()) {
+      setPmhInput('');
+      setPmhDialogOpen(true);
+      return;
+    }
+    generateQRCode();
+  };
   const downloadHealthCard = async () => {
     try {
       // Generate QR code if not already generated
       let qrCode = qrCodeUrl;
       if (!qrCode) {
-        const emergencyUrl = `${window.location.origin}/emergency/${member.id}`;
-        qrCode = await QRCode.toDataURL(emergencyUrl);
+        const url = buildTimelineUrl();
+        qrCode = await QRCode.toDataURL(url, { width: 240, margin: 1 });
       }
 
       // Create HTML content for the health card
@@ -399,7 +412,7 @@ const EnhancedEmergencyCard = ({ member }: EnhancedEmergencyCardProps) => {
               <Download className="w-4 h-4" />
               Download Health Card
             </Button>
-            <Button onClick={generateQRCode} variant="outline" className="flex-1 gap-2">
+            <Button onClick={onGenerateClick} variant="outline" className="flex-1 gap-2">
               <QrCode className="w-4 h-4" />
               Generate QR Code
             </Button>
@@ -500,6 +513,37 @@ const EnhancedEmergencyCard = ({ member }: EnhancedEmergencyCardProps) => {
         </CardContent>
       </Card>
     </div>
+
+    <Dialog open={pmhDialogOpen} onOpenChange={setPmhDialogOpen}>
+      <DialogContent className="sm:max-w-[560px]">
+        <DialogHeader>
+          <DialogTitle>Before generating QR</DialogTitle>
+          <DialogDescription>
+            Add a brief Past Medical History to embed into the QR and link.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-2">
+          <Label htmlFor="pmh">Past Medical History</Label>
+          <Textarea
+            id="pmh"
+            value={pmhInput}
+            onChange={(e) => setPmhInput(e.target.value)}
+            placeholder="e.g., Asthma since 2010; Appendectomy in 2018; Diabetes Type II"
+          />
+          <p className="text-xs text-muted-foreground">
+            This text will be encoded inside the QR link so clinicians can see it quickly.
+          </p>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setPmhDialogOpen(false)}>Cancel</Button>
+          <Button onClick={() => {
+            setEmergencyData(prev => ({ ...prev, medical_conditions: pmhInput.trim() }));
+            setPmhDialogOpen(false);
+            setTimeout(() => generateQRCode(), 0);
+          }}>Continue & Generate</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

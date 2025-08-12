@@ -154,10 +154,11 @@ const MemberProfile = () => {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="reminders">Reminders</TabsTrigger>
             <TabsTrigger value="timeline">Timeline</TabsTrigger>
+            <TabsTrigger value="documents">Documents</TabsTrigger>
             <TabsTrigger value="emergency">Health Card</TabsTrigger>
           </TabsList>
 
@@ -221,6 +222,23 @@ const MemberProfile = () => {
               </CardHeader>
               <CardContent>
                 <TimelineList memberId={member.id} refresh={refreshTrigger} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="documents">
+            <Card>
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="w-5 h-5" />
+                    Documents
+                  </CardTitle>
+                  <UploadDocumentDialog memberId={member.id} onDocumentUploaded={handleRefresh} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <DocumentsList memberId={member.id} refresh={refreshTrigger} />
               </CardContent>
             </Card>
           </TabsContent>

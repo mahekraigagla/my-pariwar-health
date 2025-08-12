@@ -94,120 +94,122 @@ const AddReminderDialog = ({ memberId, onReminderAdded }: AddReminderDialogProps
           Add Reminder
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[480px] max-h-[85vh] p-0 overflow-hidden">
+        <DialogHeader className="px-6 pt-6">
           <DialogTitle>Add Smart Reminder</DialogTitle>
           <DialogDescription>
             Set reminders for medicines, appointments, and health checkups.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title">Title *</Label>
-            <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) => handleInputChange('title', e.target.value)}
-              placeholder="e.g., Take Vitamin D3"
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="reminder_type">Reminder Type *</Label>
-            <Select value={formData.reminder_type} onValueChange={(value) => handleInputChange('reminder_type', value)} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Select reminder type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Medicine">Medicine</SelectItem>
-                <SelectItem value="Appointment">Appointment</SelectItem>
-                <SelectItem value="Vaccination">Vaccination</SelectItem>
-                <SelectItem value="Checkup">Health Checkup</SelectItem>
-                <SelectItem value="Exercise">Exercise</SelectItem>
-                <SelectItem value="Diet">Diet</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="start_date">Start Date *</Label>
-            <Input
-              id="start_date"
-              type="date"
-              value={formData.start_date}
-              onChange={(e) => handleInputChange('start_date', e.target.value)}
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="end_date">End Date (Optional)</Label>
-            <Input
-              id="end_date"
-              type="date"
-              value={formData.end_date}
-              onChange={(e) => handleInputChange('end_date', e.target.value)}
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="reminder_time">Reminder Time</Label>
-            <Input
-              id="reminder_time"
-              type="time"
-              value={formData.reminder_time}
-              onChange={(e) => handleInputChange('reminder_time', e.target.value)}
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="frequency">Frequency</Label>
-            <Select value={formData.frequency} onValueChange={(value) => handleInputChange('frequency', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select frequency" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Daily">Daily</SelectItem>
-                <SelectItem value="Twice Daily">Twice Daily</SelectItem>
-                <SelectItem value="Three Times Daily">Three Times Daily</SelectItem>
-                <SelectItem value="Weekly">Weekly</SelectItem>
-                <SelectItem value="Monthly">Monthly</SelectItem>
-                <SelectItem value="As Needed">As Needed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          {formData.reminder_type === 'Medicine' && (
+        <form onSubmit={handleSubmit} className="flex flex-col max-h-[70vh]">
+          <div className="px-6 pb-4 space-y-4 overflow-y-auto">
             <div className="space-y-2">
-              <Label htmlFor="dosage">Dosage</Label>
+              <Label htmlFor="title">Title *</Label>
               <Input
-                id="dosage"
-                value={formData.dosage}
-                onChange={(e) => handleInputChange('dosage', e.target.value)}
-                placeholder="e.g., 500mg, 1 tablet"
+                id="title"
+                value={formData.title}
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                placeholder="e.g., Take Vitamin D3"
+                required
               />
             </div>
-          )}
-          
-          <div className="space-y-2">
-            <Label htmlFor="notes">Notes</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) => handleInputChange('notes', e.target.value)}
-              placeholder="Additional instructions or notes..."
-            />
+            
+            <div className="space-y-2">
+              <Label htmlFor="reminder_type">Reminder Type *</Label>
+              <Select value={formData.reminder_type} onValueChange={(value) => handleInputChange('reminder_type', value)} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select reminder type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Medicine">Medicine</SelectItem>
+                  <SelectItem value="Appointment">Appointment</SelectItem>
+                  <SelectItem value="Vaccination">Vaccination</SelectItem>
+                  <SelectItem value="Checkup">Health Checkup</SelectItem>
+                  <SelectItem value="Exercise">Exercise</SelectItem>
+                  <SelectItem value="Diet">Diet</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="start_date">Start Date *</Label>
+              <Input
+                id="start_date"
+                type="date"
+                value={formData.start_date}
+                onChange={(e) => handleInputChange('start_date', e.target.value)}
+                required
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="end_date">End Date (Optional)</Label>
+              <Input
+                id="end_date"
+                type="date"
+                value={formData.end_date}
+                onChange={(e) => handleInputChange('end_date', e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="reminder_time">Reminder Time</Label>
+              <Input
+                id="reminder_time"
+                type="time"
+                value={formData.reminder_time}
+                onChange={(e) => handleInputChange('reminder_time', e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="frequency">Frequency</Label>
+              <Select value={formData.frequency} onValueChange={(value) => handleInputChange('frequency', value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select frequency" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Daily">Daily</SelectItem>
+                  <SelectItem value="Twice Daily">Twice Daily</SelectItem>
+                  <SelectItem value="Three Times Daily">Three Times Daily</SelectItem>
+                  <SelectItem value="Weekly">Weekly</SelectItem>
+                  <SelectItem value="Monthly">Monthly</SelectItem>
+                  <SelectItem value="As Needed">As Needed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {formData.reminder_type === 'Medicine' && (
+              <div className="space-y-2">
+                <Label htmlFor="dosage">Dosage</Label>
+                <Input
+                  id="dosage"
+                  value={formData.dosage}
+                  onChange={(e) => handleInputChange('dosage', e.target.value)}
+                  placeholder="e.g., 500mg, 1 tablet"
+                />
+              </div>
+            )}
+            
+            <div className="space-y-2">
+              <Label htmlFor="notes">Notes</Label>
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => handleInputChange('notes', e.target.value)}
+                placeholder="Additional instructions or notes..."
+              />
+            </div>
           </div>
-          
-          <div className="flex justify-end gap-2">
+
+          <div className="px-6 py-4 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky bottom-0 flex justify-end gap-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-        <Button type="submit" disabled={loading} className="w-full bg-green-600 hover:bg-green-700 text-white">
-          {loading ? 'Adding...' : 'Add Reminder'}
-        </Button>
+            <Button type="submit" disabled={loading} className="min-w-36">
+              {loading ? 'Adding...' : 'Add Reminder'}
+            </Button>
           </div>
         </form>
       </DialogContent>
