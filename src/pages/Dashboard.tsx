@@ -75,73 +75,80 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-8 mt-16">
+      <div className="container mx-auto px-6 py-12 mt-16 max-w-7xl">
         {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, {user?.email?.split('@')[0]}!
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your family's health with Pariwar+ AI Health Buddy
-          </p>
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow">
+              <Heart className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">
+                Welcome back, {user?.email?.split('@')[0]}!
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Manage your family's health with Pariwar+ AI Health Buddy
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                  <Users className="w-6 h-6 text-primary" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-primary/5 via-white to-primary/5 shadow-soft">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary-glow rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-glow transition-all duration-300">
+                  <Users className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{familyMembers.length}</p>
-                  <p className="text-sm text-muted-foreground">Family Members</p>
+                  <p className="text-3xl font-bold text-foreground mb-1">{familyMembers.length}</p>
+                  <p className="text-sm font-medium text-muted-foreground">Family Members</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-secondary/10 to-secondary/5 border-secondary/20">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
-                  <Pill className="w-6 h-6 text-secondary" />
+          <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-secondary/5 via-white to-secondary/5 shadow-soft">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-secondary to-secondary/80 rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-glow transition-all duration-300">
+                  <Pill className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
-                  <p className="text-sm text-muted-foreground">Active Medications</p>
+                  <p className="text-3xl font-bold text-foreground mb-1">0</p>
+                  <p className="text-sm font-medium text-muted-foreground">Active Medications</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-accent/20 rounded-full flex items-center justify-center">
-                  <Calendar className="w-6 h-6 text-accent" />
+          <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-accent/5 via-white to-accent/5 shadow-soft">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/80 rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-glow transition-all duration-300">
+                  <Calendar className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
-                  <p className="text-sm text-muted-foreground">Upcoming Appointments</p>
+                  <p className="text-3xl font-bold text-foreground mb-1">0</p>
+                  <p className="text-sm font-medium text-muted-foreground">Upcoming Appointments</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-destructive/10 to-destructive/5 border-destructive/20">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-destructive/20 rounded-full flex items-center justify-center">
-                  <Bell className="w-6 h-6 text-destructive" />
+          <Card className="group hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-destructive/5 via-white to-destructive/5 shadow-soft">
+            <CardContent className="p-8">
+              <div className="flex items-center gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-destructive to-destructive/80 rounded-2xl flex items-center justify-center shadow-soft group-hover:shadow-glow transition-all duration-300">
+                  <Bell className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">0</p>
-                  <p className="text-sm text-muted-foreground">Pending Alerts</p>
+                  <p className="text-3xl font-bold text-foreground mb-1">0</p>
+                  <p className="text-sm font-medium text-muted-foreground">Pending Alerts</p>
                 </div>
               </div>
             </CardContent>
@@ -149,55 +156,55 @@ const Dashboard = () => {
         </div>
 
         {/* Main Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Add Family Member */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Plus className="w-8 h-8 text-primary" />
+          <Card className="group hover:shadow-card transition-all duration-300 border-0 shadow-soft bg-gradient-card">
+            <CardHeader className="text-center pb-8">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-glow rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-soft group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
+                <Plus className="w-10 h-10 text-white" />
               </div>
-              <CardTitle className="text-xl">Add Family Member</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl font-bold mb-3">Add Family Member</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
                 Add new family members to manage their health information
               </CardDescription>
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center pt-0">
               <AddMemberDialog onMemberAdded={handleMemberAdded} />
             </CardContent>
           </Card>
 
           {/* View Members */}
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="w-8 h-8 text-secondary" />
+          <Card className="group hover:shadow-card transition-all duration-300 border-0 shadow-soft bg-gradient-card">
+            <CardHeader className="text-center pb-8">
+              <div className="w-20 h-20 bg-gradient-to-br from-secondary to-secondary/80 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-soft group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
+                <Users className="w-10 h-10 text-white" />
               </div>
-              <CardTitle className="text-xl">View Members</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl font-bold mb-3">View Members</CardTitle>
+              <CardDescription className="text-base leading-relaxed">
                 View and manage all your family members' profiles
               </CardDescription>
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center pt-0">
               <ViewMembersDialog />
             </CardContent>
           </Card>
         </div>
 
         {/* Quick Summary */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Family Overview</CardTitle>
-            <CardDescription>
+        <Card className="border-0 shadow-soft bg-gradient-card">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-2xl font-bold">Family Overview</CardTitle>
+            <CardDescription className="text-base">
               You have {familyMembers.length} family member{familyMembers.length !== 1 ? 's' : ''} registered
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-6">
-              <p className="text-muted-foreground mb-4">
+            <div className="text-center py-8">
+              <p className="text-lg text-muted-foreground mb-6">
                 Use the buttons above to add new members or view existing ones
               </p>
               {familyMembers.length > 0 && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground">
                   Click "View Members" to see all family members and access their health profiles
                 </p>
               )}

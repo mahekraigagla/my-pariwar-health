@@ -98,92 +98,96 @@ const MemberProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <Navbar />
       
-      <div className="container mx-auto px-4 py-8 mt-16">
+      <div className="container mx-auto px-6 py-12 mt-16 max-w-7xl">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Button 
             variant="ghost" 
             onClick={() => navigate('/dashboard')}
-            className="mb-4"
+            className="mb-6 hover:bg-muted/50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Dashboard
           </Button>
           
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-              <Users2 className="w-8 h-8 text-primary" />
+          <div className="flex items-center gap-6 mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary to-primary-glow rounded-3xl flex items-center justify-center shadow-glow">
+              <Users2 className="w-10 h-10 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">{member.name}</h1>
-              <p className="text-muted-foreground">{member.relation}</p>
+              <h1 className="text-4xl font-bold text-foreground mb-2">{member.name}</h1>
+              <p className="text-xl text-muted-foreground">{member.relation}</p>
             </div>
           </div>
 
           {/* Quick Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {member.age && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Age</p>
-                <p className="font-semibold">{member.age} years</p>
+              <div className="bg-gradient-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Age</p>
+                <p className="text-xl font-bold text-foreground">{member.age} years</p>
               </div>
             )}
             {member.gender && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Gender</p>
-                <p className="font-semibold">{member.gender}</p>
+              <div className="bg-gradient-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Gender</p>
+                <p className="text-xl font-bold text-foreground">{member.gender}</p>
               </div>
             )}
             {member.blood_group && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Blood Group</p>
-                <p className="font-semibold">{member.blood_group}</p>
+              <div className="bg-gradient-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Blood Group</p>
+                <p className="text-xl font-bold text-foreground">{member.blood_group}</p>
               </div>
             )}
             {member.phone && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Phone</p>
-                <p className="font-semibold">{member.phone}</p>
+              <div className="bg-gradient-card rounded-2xl p-6 shadow-soft hover:shadow-card transition-all duration-300">
+                <p className="text-sm font-medium text-muted-foreground mb-2">Phone</p>
+                <p className="text-xl font-bold text-foreground">{member.phone}</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Main Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="reminders">Reminders</TabsTrigger>
-            <TabsTrigger value="timeline">Timeline</TabsTrigger>
-            <TabsTrigger value="documents">Documents</TabsTrigger>
-            <TabsTrigger value="emergency">Health Card</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-5 h-14 bg-muted/50 rounded-2xl p-2">
+            <TabsTrigger value="overview" className="rounded-xl font-semibold">Overview</TabsTrigger>
+            <TabsTrigger value="reminders" className="rounded-xl font-semibold">Reminders</TabsTrigger>
+            <TabsTrigger value="timeline" className="rounded-xl font-semibold">Timeline</TabsTrigger>
+            <TabsTrigger value="documents" className="rounded-xl font-semibold">Documents</TabsTrigger>
+            <TabsTrigger value="emergency" className="rounded-xl font-semibold">Health Card</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Bell className="w-5 h-5" />
+          <TabsContent value="overview" className="space-y-8">
+            <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+              <Card className="border-0 shadow-soft bg-gradient-card">
+                <CardHeader className="pb-6">
+                  <CardTitle className="flex items-center gap-3 text-xl font-bold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-glow rounded-xl flex items-center justify-center">
+                      <Bell className="w-5 h-5 text-white" />
+                    </div>
                     Active Reminders
                   </CardTitle>
-                  <CardDescription>Current medications and appointments</CardDescription>
+                  <CardDescription className="text-base">Current medications and appointments</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RemindersList memberId={member.id} refresh={refreshTrigger} showLimited={true} />
                 </CardContent>
               </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
+              <Card className="border-0 shadow-soft bg-gradient-card">
+                <CardHeader className="pb-6">
+                  <CardTitle className="flex items-center gap-3 text-xl font-bold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-white" />
+                    </div>
                     Recent Timeline
                   </CardTitle>
-                  <CardDescription>Latest medical history entries</CardDescription>
+                  <CardDescription className="text-base">Latest medical history entries</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <TimelineList memberId={member.id} refresh={refreshTrigger} showLimited={true} />
@@ -193,11 +197,13 @@ const MemberProfile = () => {
           </TabsContent>
 
           <TabsContent value="reminders">
-            <Card>
-              <CardHeader>
+            <Card className="border-0 shadow-soft bg-gradient-card">
+              <CardHeader className="pb-6">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="flex items-center gap-2">
-                    <Bell className="w-5 h-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl font-bold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-glow rounded-xl flex items-center justify-center">
+                      <Bell className="w-5 h-5 text-white" />
+                    </div>
                     Reminders & Medications
                   </CardTitle>
                   <AddReminderDialog memberId={member.id} onReminderAdded={handleRefresh} />
@@ -210,11 +216,13 @@ const MemberProfile = () => {
           </TabsContent>
 
           <TabsContent value="timeline">
-            <Card>
-              <CardHeader>
+            <Card className="border-0 shadow-soft bg-gradient-card">
+              <CardHeader className="pb-6">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl font-bold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/80 rounded-xl flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-white" />
+                    </div>
                     Medical Timeline
                   </CardTitle>
                   <AddTimelineDialog memberId={member.id} onTimelineAdded={handleRefresh} />
@@ -227,11 +235,13 @@ const MemberProfile = () => {
           </TabsContent>
 
           <TabsContent value="documents">
-            <Card>
-              <CardHeader>
+            <Card className="border-0 shadow-soft bg-gradient-card">
+              <CardHeader className="pb-6">
                 <div className="flex justify-between items-center">
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="w-5 h-5" />
+                  <CardTitle className="flex items-center gap-3 text-xl font-bold">
+                    <div className="w-10 h-10 bg-gradient-to-br from-secondary to-secondary/80 rounded-xl flex items-center justify-center">
+                      <FileText className="w-5 h-5 text-white" />
+                    </div>
                     Documents
                   </CardTitle>
                   <UploadDocumentDialog memberId={member.id} onDocumentUploaded={handleRefresh} />
@@ -244,7 +254,7 @@ const MemberProfile = () => {
           </TabsContent>
 
           <TabsContent value="emergency">
-            <div className="space-y-6">
+            <div className="space-y-8">
               <EnhancedEmergencyCard member={member} />
             </div>
           </TabsContent>
