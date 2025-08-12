@@ -313,237 +313,238 @@ const EnhancedEmergencyCard = ({ member }: EnhancedEmergencyCardProps) => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="border-destructive/20 bg-destructive/5">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-destructive">
-            <Shield className="w-5 h-5" />
-            Emergency Health Card Generator
-          </CardTitle>
-          <CardDescription>
-            Generate a comprehensive emergency health card for {member.name} with QR code for quick access.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <>
+      <div className="space-y-6">
+        <Card className="border-destructive/20 bg-destructive/5">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-destructive">
+              <Shield className="w-5 h-5" />
+              Emergency Health Card Generator
+            </CardTitle>
+            <CardDescription>
+              Generate a comprehensive emergency health card for {member.name} with QR code for quick access.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="blood_group">Blood Group</Label>
+                <Input
+                  id="blood_group"
+                  value={emergencyData.blood_group}
+                  onChange={(e) => handleInputChange('blood_group', e.target.value)}
+                  placeholder="e.g., A+, B-, O+"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="emergency_contact_name">Emergency Contact Name</Label>
+                <Input
+                  id="emergency_contact_name"
+                  value={emergencyData.emergency_contact_name}
+                  onChange={(e) => handleInputChange('emergency_contact_name', e.target.value)}
+                  placeholder="Contact person name"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="emergency_contact_phone">Emergency Contact Phone</Label>
+                <Input
+                  id="emergency_contact_phone"
+                  value={emergencyData.emergency_contact_phone}
+                  onChange={(e) => handleInputChange('emergency_contact_phone', e.target.value)}
+                  placeholder="Contact phone number"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="doctor_name">Primary Doctor Name</Label>
+                <Input
+                  id="doctor_name"
+                  value={emergencyData.doctor_name}
+                  onChange={(e) => handleInputChange('doctor_name', e.target.value)}
+                  placeholder="Primary doctor name"
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="doctor_phone">Doctor Phone</Label>
+                <Input
+                  id="doctor_phone"
+                  value={emergencyData.doctor_phone}
+                  onChange={(e) => handleInputChange('doctor_phone', e.target.value)}
+                  placeholder="Doctor phone number"
+                />
+              </div>
+            </div>
+            
             <div className="space-y-2">
-              <Label htmlFor="blood_group">Blood Group</Label>
-              <Input
-                id="blood_group"
-                value={emergencyData.blood_group}
-                onChange={(e) => handleInputChange('blood_group', e.target.value)}
-                placeholder="e.g., A+, B-, O+"
+              <Label htmlFor="allergies">Allergies</Label>
+              <Textarea
+                id="allergies"
+                value={emergencyData.allergies}
+                onChange={(e) => handleInputChange('allergies', e.target.value)}
+                placeholder="List all known allergies (e.g., Penicillin, Shellfish, Nuts)"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="emergency_contact_name">Emergency Contact Name</Label>
-              <Input
-                id="emergency_contact_name"
-                value={emergencyData.emergency_contact_name}
-                onChange={(e) => handleInputChange('emergency_contact_name', e.target.value)}
-                placeholder="Contact person name"
+              <Label htmlFor="ongoing_medicines">Ongoing Medicines</Label>
+              <Textarea
+                id="ongoing_medicines"
+                value={emergencyData.ongoing_medicines}
+                onChange={(e) => handleInputChange('ongoing_medicines', e.target.value)}
+                placeholder="List all current medications with dosages"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="emergency_contact_phone">Emergency Contact Phone</Label>
-              <Input
-                id="emergency_contact_phone"
-                value={emergencyData.emergency_contact_phone}
-                onChange={(e) => handleInputChange('emergency_contact_phone', e.target.value)}
-                placeholder="Contact phone number"
+              <Label htmlFor="medical_conditions">Medical Conditions</Label>
+              <Textarea
+                id="medical_conditions"
+                value={emergencyData.medical_conditions}
+                onChange={(e) => handleInputChange('medical_conditions', e.target.value)}
+                placeholder="List any chronic conditions, past surgeries, or important medical history"
               />
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="doctor_name">Primary Doctor Name</Label>
-              <Input
-                id="doctor_name"
-                value={emergencyData.doctor_name}
-                onChange={(e) => handleInputChange('doctor_name', e.target.value)}
-                placeholder="Primary doctor name"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="doctor_phone">Doctor Phone</Label>
-              <Input
-                id="doctor_phone"
-                value={emergencyData.doctor_phone}
-                onChange={(e) => handleInputChange('doctor_phone', e.target.value)}
-                placeholder="Doctor phone number"
-              />
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="allergies">Allergies</Label>
-            <Textarea
-              id="allergies"
-              value={emergencyData.allergies}
-              onChange={(e) => handleInputChange('allergies', e.target.value)}
-              placeholder="List all known allergies (e.g., Penicillin, Shellfish, Nuts)"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="ongoing_medicines">Ongoing Medicines</Label>
-            <Textarea
-              id="ongoing_medicines"
-              value={emergencyData.ongoing_medicines}
-              onChange={(e) => handleInputChange('ongoing_medicines', e.target.value)}
-              placeholder="List all current medications with dosages"
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="medical_conditions">Medical Conditions</Label>
-            <Textarea
-              id="medical_conditions"
-              value={emergencyData.medical_conditions}
-              onChange={(e) => handleInputChange('medical_conditions', e.target.value)}
-              placeholder="List any chronic conditions, past surgeries, or important medical history"
-            />
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button onClick={downloadHealthCard} className="flex-1 gap-2" variant="destructive">
-              <Download className="w-4 h-4" />
-              Download Health Card
-            </Button>
-            <Button onClick={onGenerateClick} variant="outline" className="flex-1 gap-2">
-              <QrCode className="w-4 h-4" />
-              Generate QR Code
-            </Button>
-          </div>
-
-          {qrCodeUrl && (
-            <div className="text-center pt-4 border-t">
-              <p className="text-sm text-muted-foreground mb-2">QR Code for Emergency Profile:</p>
-              <img src={qrCodeUrl} alt="Emergency QR Code" className="mx-auto border rounded-lg" />
-              <p className="text-xs text-muted-foreground mt-2">
-                This QR code links to {member.name}'s emergency health profile
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-      
-      {/* Enhanced Preview Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Emergency Card Preview</CardTitle>
-          <CardDescription>
-            Preview of how your emergency health card will look
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="max-w-sm mx-auto bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-xl p-6 shadow-lg">
-            {/* Header */}
-            <div className="text-center mb-4 pb-3 border-b-2 border-red-300">
-              <div className="inline-block bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
-                🆘 EMERGENCY HEALTH CARD
-              </div>
-              <h3 className="text-lg font-bold text-gray-900">{member.name}</h3>
-            </div>
-            
-            {/* Basic Info Grid */}
-            <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
-              <div className="bg-white/70 p-2 rounded">
-                <div className="text-gray-600 font-semibold">Age</div>
-                <div className="text-gray-900">{member.age || 'N/A'}</div>
-              </div>
-              <div className="bg-white/70 p-2 rounded">
-                <div className="text-gray-600 font-semibold">Gender</div>
-                <div className="text-gray-900">{member.gender || 'N/A'}</div>
-              </div>
-              <div className="bg-white/70 p-2 rounded">
-                <div className="text-gray-600 font-semibold">Blood</div>
-                <div className="text-gray-900 font-bold text-red-600">{emergencyData.blood_group || 'N/A'}</div>
-              </div>
-              <div className="bg-white/70 p-2 rounded">
-                <div className="text-gray-600 font-semibold">Phone</div>
-                <div className="text-gray-900">{member.phone || 'N/A'}</div>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button onClick={downloadHealthCard} className="flex-1 gap-2" variant="destructive">
+                <Download className="w-4 h-4" />
+                Download Health Card
+              </Button>
+              <Button onClick={onGenerateClick} variant="outline" className="flex-1 gap-2">
+                <QrCode className="w-4 h-4" />
+                Generate QR Code
+              </Button>
             </div>
 
-            {/* Emergency Contact */}
-            <div className="bg-red-50 border border-red-200 rounded p-2 mb-3">
-              <div className="text-red-700 font-bold text-xs mb-1">📞 EMERGENCY CONTACT</div>
-              <div className="text-xs">
-                <div className="font-semibold">{emergencyData.emergency_contact_name || 'N/A'}</div>
-                <div>{emergencyData.emergency_contact_phone || 'N/A'}</div>
-              </div>
-            </div>
-
-            {/* Allergies */}
-            {emergencyData.allergies && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded p-2 mb-3">
-                <div className="text-yellow-700 font-bold text-xs mb-1">⚠️ ALLERGIES</div>
-                <div className="text-xs text-gray-700">{emergencyData.allergies}</div>
+            {qrCodeUrl && (
+              <div className="text-center pt-4 border-t">
+                <p className="text-sm text-muted-foreground mb-2">QR Code for Emergency Profile:</p>
+                <img src={qrCodeUrl} alt="Emergency QR Code" className="mx-auto border rounded-lg" />
+                <p className="text-xs text-muted-foreground mt-2">
+                  This QR code links to {member.name}'s emergency health profile
+                </p>
               </div>
             )}
-
-            {/* Medications */}
-            {emergencyData.ongoing_medicines && (
-              <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-3">
-                <div className="text-blue-700 font-bold text-xs mb-1">💊 MEDICATIONS</div>
-                <div className="text-xs text-gray-700">{emergencyData.ongoing_medicines}</div>
+          </CardContent>
+        </Card>
+        
+        {/* Enhanced Preview Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Emergency Card Preview</CardTitle>
+            <CardDescription>
+              Preview of how your emergency health card will look
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="max-w-sm mx-auto bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-200 rounded-xl p-6 shadow-lg">
+              {/* Header */}
+              <div className="text-center mb-4 pb-3 border-b-2 border-red-300">
+                <div className="inline-block bg-red-600 text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
+                  🆘 EMERGENCY HEALTH CARD
+                </div>
+                <h3 className="text-lg font-bold text-gray-900">{member.name}</h3>
               </div>
-            )}
+              
+              {/* Basic Info Grid */}
+              <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
+                <div className="bg-white/70 p-2 rounded">
+                  <div className="text-gray-600 font-semibold">Age</div>
+                  <div className="text-gray-900">{member.age || 'N/A'}</div>
+                </div>
+                <div className="bg-white/70 p-2 rounded">
+                  <div className="text-gray-600 font-semibold">Gender</div>
+                  <div className="text-gray-900">{member.gender || 'N/A'}</div>
+                </div>
+                <div className="bg-white/70 p-2 rounded">
+                  <div className="text-gray-600 font-semibold">Blood</div>
+                  <div className="text-gray-900 font-bold text-red-600">{emergencyData.blood_group || 'N/A'}</div>
+                </div>
+                <div className="bg-white/70 p-2 rounded">
+                  <div className="text-gray-600 font-semibold">Phone</div>
+                  <div className="text-gray-900">{member.phone || 'N/A'}</div>
+                </div>
+              </div>
 
-            {/* QR Code Section */}
-            <div className="text-center mt-4 pt-3 border-t border-red-200">
-              <div className="text-xs text-gray-600 mb-1">📱 Scan for Full Profile</div>
-              {qrCodeUrl ? (
-                <img src={qrCodeUrl} alt="QR Code" className="w-16 h-16 mx-auto border rounded" />
-              ) : (
-                <div className="w-16 h-16 mx-auto bg-gray-200 border rounded flex items-center justify-center">
-                  <QrCode className="w-8 h-8 text-gray-400" />
+              {/* Emergency Contact */}
+              <div className="bg-red-50 border border-red-200 rounded p-2 mb-3">
+                <div className="text-red-700 font-bold text-xs mb-1">📞 EMERGENCY CONTACT</div>
+                <div className="text-xs">
+                  <div className="font-semibold">{emergencyData.emergency_contact_name || 'N/A'}</div>
+                  <div>{emergencyData.emergency_contact_phone || 'N/A'}</div>
+                </div>
+              </div>
+
+              {/* Allergies */}
+              {emergencyData.allergies && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded p-2 mb-3">
+                  <div className="text-yellow-700 font-bold text-xs mb-1">⚠️ ALLERGIES</div>
+                  <div className="text-xs text-gray-700">{emergencyData.allergies}</div>
                 </div>
               )}
-            </div>
 
-            {/* Footer */}
-            <div className="text-center mt-3 text-xs text-gray-500">
-              Keep in wallet for emergencies
+              {/* Medications */}
+              {emergencyData.ongoing_medicines && (
+                <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-3">
+                  <div className="text-blue-700 font-bold text-xs mb-1">💊 MEDICATIONS</div>
+                  <div className="text-xs text-gray-700">{emergencyData.ongoing_medicines}</div>
+                </div>
+              )}
+
+              {/* Conditions */}
+              {emergencyData.medical_conditions && (
+                <div className="bg-purple-50 border border-purple-200 rounded p-2 mb-3">
+                  <div className="text-purple-700 font-bold text-xs mb-1">🏥 CONDITIONS</div>
+                  <div className="text-xs text-gray-700">{emergencyData.medical_conditions}</div>
+                </div>
+              )}
+
+              {/* QR Section */}
+              <div className="text-center pt-3 border-t border-red-200">
+                <div className="text-red-700 font-bold text-xs mb-1">📱 SCAN FOR TIMELINE</div>
+                <div className="w-16 h-16 bg-white border-2 border-red-300 rounded mx-auto flex items-center justify-center">
+                  <div className="text-xs text-gray-500">QR</div>
+                </div>
+              </div>
             </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Dialog open={pmhDialogOpen} onOpenChange={setPmhDialogOpen}>
+        <DialogContent className="sm:max-w-[560px]">
+          <DialogHeader>
+            <DialogTitle>Before generating QR</DialogTitle>
+            <DialogDescription>
+              Add a brief Past Medical History to embed into the QR and link.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="pmh">Past Medical History</Label>
+            <Textarea
+              id="pmh"
+              value={pmhInput}
+              onChange={(e) => setPmhInput(e.target.value)}
+              placeholder="e.g., Asthma since 2010; Appendectomy in 2018; Diabetes Type II"
+            />
+            <p className="text-xs text-muted-foreground">
+              This text will be encoded inside the QR link so clinicians can see it quickly.
+            </p>
           </div>
-        </CardContent>
-      </Card>
-    </div>
-
-    <Dialog open={pmhDialogOpen} onOpenChange={setPmhDialogOpen}>
-      <DialogContent className="sm:max-w-[560px]">
-        <DialogHeader>
-          <DialogTitle>Before generating QR</DialogTitle>
-          <DialogDescription>
-            Add a brief Past Medical History to embed into the QR and link.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="space-y-2">
-          <Label htmlFor="pmh">Past Medical History</Label>
-          <Textarea
-            id="pmh"
-            value={pmhInput}
-            onChange={(e) => setPmhInput(e.target.value)}
-            placeholder="e.g., Asthma since 2010; Appendectomy in 2018; Diabetes Type II"
-          />
-          <p className="text-xs text-muted-foreground">
-            This text will be encoded inside the QR link so clinicians can see it quickly.
-          </p>
-        </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setPmhDialogOpen(false)}>Cancel</Button>
-          <Button onClick={() => {
-            setEmergencyData(prev => ({ ...prev, medical_conditions: pmhInput.trim() }));
-            setPmhDialogOpen(false);
-            setTimeout(() => generateQRCode(), 0);
-          }}>Continue & Generate</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPmhDialogOpen(false)}>Cancel</Button>
+            <Button onClick={() => {
+              setEmergencyData(prev => ({ ...prev, medical_conditions: pmhInput.trim() }));
+              setPmhDialogOpen(false);
+              setTimeout(() => generateQRCode(), 0);
+            }}>Continue & Generate</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
