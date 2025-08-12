@@ -49,7 +49,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10 animate-pulse">
         <div className="w-full h-full bg-repeat" style={{
@@ -57,7 +57,7 @@ const Auth = () => {
         }}></div>
       </div>
 
-      <div className="w-full max-w-lg relative z-10">
+      <div className="w-full max-w-md relative z-10">
         {/* Back to Home */}
         <Link 
           to="/" 
@@ -68,35 +68,35 @@ const Auth = () => {
         </Link>
 
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-3 text-white mb-6 shadow-glow">
-            <Heart className="w-5 h-5" />
-            <span className="font-semibold">Pariwar+ Authentication</span>
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-white mb-4">
+            <Heart className="w-4 h-4" />
+            <span className="text-sm font-medium">Pariwar+ Authentication</span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl font-bold text-white mb-2">
             Join Your Family's Health Journey
           </h1>
-          <p className="text-xl text-white/80 leading-relaxed">
+          <p className="text-white/80">
             Secure access to your family's health management platform
           </p>
         </div>
 
-        <Card className="bg-white/10 backdrop-blur-sm border-white/20 shadow-2xl">
-          <CardHeader className="text-center pb-8">
-            <CardTitle className="text-2xl font-bold text-white mb-3">
+        <Card className="bg-white/10 backdrop-blur-sm border-white/20">
+          <CardHeader>
+            <CardTitle className="text-white text-center">
               Get Started
             </CardTitle>
-            <CardDescription className="text-lg text-white/80">
+            <CardDescription className="text-white/80 text-center">
               Sign in to your account or create a new one
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="signin" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/10 p-2 h-12 rounded-xl">
-                <TabsTrigger value="signin" className="text-white font-semibold rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">
+              <TabsList className="grid w-full grid-cols-2 bg-white/10">
+                <TabsTrigger value="signin" className="text-white data-[state=active]:bg-white data-[state=active]:text-primary">
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="signup" className="text-white font-semibold rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm">
+                <TabsTrigger value="signup" className="text-white data-[state=active]:bg-white data-[state=active]:text-primary">
                   Sign Up
                 </TabsTrigger>
               </TabsList>
@@ -202,18 +202,14 @@ const Auth = () => {
         </Card>
 
         {/* Trust Indicators */}
-        <div className="flex items-center justify-center gap-8 mt-8 text-white/80">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-              <Shield className="w-4 h-4" />
-            </div>
-            <span className="font-medium">Secure & Private</span>
+        <div className="flex items-center justify-center gap-6 mt-6 text-white/70 text-sm">
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4" />
+            <span>Secure & Private</span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-              <Users className="w-4 h-4" />
-            </div>
-            <span className="font-medium">Family Focused</span>
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            <span>Family Focused</span>
           </div>
         </div>
       </div>

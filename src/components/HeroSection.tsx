@@ -29,40 +29,40 @@ const HeroSection = () => {
         }}></div>
       </div>
       
-      <div className="container mx-auto px-6 py-20 relative z-10 max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
-          <div className="text-center lg:text-left space-y-10">
+          <div className="text-center lg:text-left space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-3 text-white shadow-glow">
-              <Heart className="w-5 h-5" />
-              <span className="font-semibold">AI Powered Health Management</span>
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 text-white">
+              <Heart className="w-4 h-4" />
+              <span className="text-sm font-medium">AI Powered Health Management</span>
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
                 Pariwar+
               </h1>
-              <p className="text-2xl md:text-3xl text-white/90 font-semibold">
+              <p className="text-xl md:text-2xl text-white/90 font-medium">
                 Your Family's Smart Health Buddy
               </p>
-              <p className="text-xl text-white/80 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-lg text-white/80 max-w-2xl mx-auto lg:mx-0">
                 Track medicines, appointments, and reports for your whole family from one place. 
                 Organize medical history, set smart reminders, and generate emergency health cards.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-              <Button variant="hero" size="lg" className="group h-14 px-8 text-lg font-semibold" onClick={handleGetStarted}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Button variant="hero" size="lg" className="group" onClick={handleGetStarted}>
                 {user ? 'Go to Dashboard' : 'Get Started'}
-                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 h-14 px-8 text-lg font-semibold"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
                 onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Learn More
@@ -70,40 +70,36 @@ const HeroSection = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="flex items-center justify-center lg:justify-start gap-10 text-white/80">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Shield className="w-5 h-5" />
-                </div>
-                <span className="font-medium">Secure & Private</span>
+            <div className="flex items-center justify-center lg:justify-start gap-8 text-white/70 text-sm">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                <span>Secure & Private</span>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                  <Users className="w-5 h-5" />
-                </div>
-                <span className="font-medium">For Whole Family</span>
+              <div className="flex items-center gap-2">
+                <Users className="w-4 h-4" />
+                <span>For Whole Family</span>
               </div>
             </div>
           </div>
 
           {/* Right Content - Hero Image */}
           <div className="relative">
-            <div className="relative bg-gradient-card rounded-3xl p-10 shadow-2xl">
+            <div className="relative bg-gradient-card rounded-3xl p-8 shadow-glow">
               <img 
                 src={heroImage} 
                 alt="Family Health Management" 
-                className="w-full h-auto rounded-3xl shadow-card"
+                className="w-full h-auto rounded-2xl shadow-card"
               />
               
               {/* Floating Cards */}
-              <div className="absolute -top-6 -left-6 bg-white rounded-3xl p-6 shadow-glow animate-bounce">
-                <Heart className="w-8 h-8 text-primary" />
-                <p className="text-sm font-semibold mt-2">Health Alerts</p>
+              <div className="absolute -top-4 -left-4 bg-white rounded-2xl p-4 shadow-card animate-bounce">
+                <Heart className="w-6 h-6 text-primary" />
+                <p className="text-xs font-medium mt-1">Health Alerts</p>
               </div>
               
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-3xl p-6 shadow-glow animate-bounce delay-1000">
-                <Shield className="w-8 h-8 text-secondary" />
-                <p className="text-sm font-semibold mt-2">Secure Data</p>
+              <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-card animate-bounce delay-1000">
+                <Shield className="w-6 h-6 text-secondary" />
+                <p className="text-xs font-medium mt-1">Secure Data</p>
               </div>
             </div>
           </div>
