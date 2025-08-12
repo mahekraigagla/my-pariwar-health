@@ -50,9 +50,15 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
 
     setLoading(true);
     try {
-      // Upload file to storage
+      // Get the current user from Supabase auth
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Upload file to storage with user ID as folder structure
       const fileExt = formData.file.name.split('.').pop();
-      const fileName = `${memberId}/${Date.now()}.${fileExt}`;
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
       
       const { error: uploadError } = await supabase.storage
         .from('medical-documents')
