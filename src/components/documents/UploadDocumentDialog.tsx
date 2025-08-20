@@ -48,6 +48,15 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
       return;
     }
 
+    if (!formData.document_type) {
+      toast({
+        title: "Error",
+        description: "Please select a document type",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       // Get the current user from Supabase auth
@@ -60,11 +69,22 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
       const fileExt = formData.file.name.split('.').pop();
       const fileName = `${user.id}/${Date.now()}.${fileExt}`;
       
+      // First, check if the bucket exists
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const bucketExists = buckets?.some(bucket => bucket.name === 'medical-documents');
+      
+      if (!bucketExists) {
+        throw new Error('Storage bucket "medical-documents" not found. Please contact support to enable document storage.');
+      }
+      
       const { error: uploadError } = await supabase.storage
         .from('medical-documents')
         .upload(fileName, formData.file);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('Storage upload error:', uploadError);
+        throw new Error(`Failed to upload file: ${uploadError.message}`);
+      }
 
       // Get public URL
       const { data: urlData } = supabase.storage
@@ -72,6 +92,16 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
         .getPublicUrl(fileName);
 
       // Save document record
+      console.log('Inserting document with data:', {
+        family_member_id: memberId,
+        title: formData.title,
+        document_type: formData.document_type,
+        document_date: formData.document_date,
+        notes: formData.notes,
+        file_url: urlData.publicUrl,
+        file_name: formData.file.name
+      });
+
       const { error } = await supabase
         .from('medical_documents')
         .insert({
@@ -84,7 +114,10 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
           file_name: formData.file.name
         });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database error:', error);
+        throw error;
+      }
 
       toast({
         title: "Success!",
@@ -146,13 +179,9 @@ const UploadDocumentDialog = ({ memberId, onDocumentUploaded }: UploadDocumentDi
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Prescription">Prescription</SelectItem>
-                <SelectItem value="Lab Report">Lab Report</SelectItem>
+                <SelectItem value="Lab">Lab Report</SelectItem>
                 <SelectItem value="Bill">Medical Bill</SelectItem>
-                <SelectItem value="X-Ray">X-Ray</SelectItem>
-                <SelectItem value="MRI">MRI</SelectItem>
-                <SelectItem value="CT Scan">CT Scan</SelectItem>
-                <SelectItem value="Vaccination">Vaccination Record</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
+                <SelectItem value="Other">Other (X-Ray, MRI, CT Scan, etc.)</SelectItem>
               </SelectContent>
             </Select>
           </div>

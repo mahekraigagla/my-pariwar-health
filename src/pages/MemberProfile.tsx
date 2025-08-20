@@ -8,7 +8,7 @@ import { ArrowLeft, FileText, Clock, Bell, Shield, Users2, Calendar } from 'luci
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import Navbar from '@/components/Navbar';
+import DashboardHeader from '@/components/DashboardHeader';
 import UploadDocumentDialog from '@/components/documents/UploadDocumentDialog';
 import AddTimelineDialog from '@/components/timeline/AddTimelineDialog';
 import AddReminderDialog from '@/components/reminders/AddReminderDialog';
@@ -18,6 +18,7 @@ import DocumentsList from '@/components/documents/DocumentsList';
 import TimelineList from '@/components/timeline/TimelineList';
 import RemindersList from '@/components/reminders/RemindersList';
 import DoctorsList from '@/components/doctors/DoctorsList';
+import FamilyMemberPhoto from '@/components/family/FamilyMemberPhoto';
 
 interface FamilyMember {
   id: string;
@@ -31,6 +32,7 @@ interface FamilyMember {
   allergies?: string;
   emergency_contact_name?: string;
   emergency_contact_phone?: string;
+  photo_url?: string;
 }
 
 const MemberProfile = () => {
@@ -99,57 +101,55 @@ const MemberProfile = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <Navbar />
+      <DashboardHeader 
+        title={member.name}
+        subtitle={member.relation}
+        showBackButton={true}
+        backTo="/dashboard"
+        backLabel="Back to Dashboard"
+      />
       
-      <div className="container mx-auto px-4 py-8 mt-16">
-        {/* Header */}
-        <div className="mb-8">
-          <Button 
-            variant="ghost" 
-            onClick={() => navigate('/dashboard')}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
-          
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-              <Users2 className="w-8 h-8 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold">{member.name}</h1>
-              <p className="text-muted-foreground">{member.relation}</p>
-            </div>
+      <div className="container mx-auto px-4 py-8">
+        {/* Member Photo and Info */}
+        <div className="flex items-center gap-6 mb-8">
+          <FamilyMemberPhoto 
+            photoUrl={member.photo_url}
+            name={member.name}
+            relation={member.relation}
+            size="xl"
+          />
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">{member.name}</h2>
+            <p className="text-lg text-gray-600 capitalize">{member.relation}</p>
           </div>
-
-          {/* Quick Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {member.age && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Age</p>
-                <p className="font-semibold">{member.age} years</p>
-              </div>
-            )}
-            {member.gender && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Gender</p>
-                <p className="font-semibold">{member.gender}</p>
-              </div>
-            )}
-            {member.blood_group && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Blood Group</p>
-                <p className="font-semibold">{member.blood_group}</p>
-              </div>
-            )}
-            {member.phone && (
-              <div className="bg-card rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">Phone</p>
-                <p className="font-semibold">{member.phone}</p>
-              </div>
-            )}
-          </div>
+        </div>
+        
+        {/* Quick Info Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {member.age && (
+            <div className="bg-card rounded-lg p-3 shadow-soft">
+              <p className="text-sm text-muted-foreground">Age</p>
+              <p className="font-semibold">{member.age} years</p>
+            </div>
+          )}
+          {member.gender && (
+            <div className="bg-card rounded-lg p-3 shadow-soft">
+              <p className="text-sm text-muted-foreground">Gender</p>
+              <p className="font-semibold">{member.gender}</p>
+            </div>
+          )}
+          {member.blood_group && (
+            <div className="bg-card rounded-lg p-3 shadow-soft">
+              <p className="text-sm text-muted-foreground">Blood Group</p>
+              <p className="font-semibold">{member.blood_group}</p>
+            </div>
+          )}
+          {member.phone && (
+            <div className="bg-card rounded-lg p-3 shadow-soft">
+              <p className="text-sm text-muted-foreground">Phone</p>
+              <p className="font-semibold">{member.phone}</p>
+            </div>
+          )}
         </div>
 
         {/* Main Content Tabs */}

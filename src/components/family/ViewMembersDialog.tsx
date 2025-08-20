@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Users, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import FamilyMemberPhoto from './FamilyMemberPhoto';
 
 interface FamilyMember {
   id: string;
@@ -15,6 +16,7 @@ interface FamilyMember {
   gender?: string;
   phone?: string;
   email?: string;
+  photo_url?: string;
 }
 
 const ViewMembersDialog = () => {
@@ -100,8 +102,14 @@ const ViewMembersDialog = () => {
                   key={member.id}
                   className="bg-card border rounded-lg p-6 hover:shadow-md transition-shadow"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
+                  <div className="flex items-start gap-4 mb-4">
+                    <FamilyMemberPhoto 
+                      photoUrl={member.photo_url}
+                      name={member.name}
+                      relation={member.relation}
+                      size="lg"
+                    />
+                    <div className="flex-1">
                       <h3 className="font-semibold text-lg">{member.name}</h3>
                       <p className="text-muted-foreground capitalize">{member.relation}</p>
                     </div>

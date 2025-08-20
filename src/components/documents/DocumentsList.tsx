@@ -77,13 +77,31 @@ const DocumentsList = ({ memberId, refresh }: DocumentsListProps) => {
     }
   };
 
-  const handleDownload = (fileUrl: string, fileName: string) => {
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownload = async (fileUrl: string, fileName: string) => {
+    try {
+      // Check if the file URL is accessible
+      const response = await fetch(fileUrl);
+      if (!response.ok) {
+        throw new Error(`Failed to access file: ${response.status} ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error('Download error:', error);
+      toast({
+        title: "Download Failed",
+        description: error.message || "Failed to download document. The file may not be accessible.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (loading) {
@@ -153,7 +171,23 @@ const DocumentsList = ({ memberId, refresh }: DocumentsListProps) => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => window.open(document.file_url, '_blank')}
+                  onClick={async () => {
+                    try {
+                      // Check if the file URL is accessible
+                      const response = await fetch(document.file_url);
+                      if (!response.ok) {
+                        throw new Error(`Failed to access file: ${response.status} ${response.statusText}`);
+                      }
+                      window.open(document.file_url, '_blank');
+                    } catch (error: any) {
+                      console.error('View error:', error);
+                      toast({
+                        title: "View Failed",
+                        description: error.message || "Failed to view document. The file may not be accessible.",
+                        variant: "destructive",
+                      });
+                    }
+                  }}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   View

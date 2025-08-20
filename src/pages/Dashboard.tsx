@@ -20,7 +20,7 @@ import {
   Download,
   Upload
 } from 'lucide-react';
-import Navbar from '@/components/Navbar';
+import DashboardHeader from '@/components/DashboardHeader';
 import AddMemberDialog from '@/components/family/AddMemberDialog';
 import FamilyMemberCard from '@/components/family/FamilyMemberCard';
 import ViewMembersDialog from '@/components/family/ViewMembersDialog';
@@ -76,18 +76,12 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <Navbar />
+      <DashboardHeader 
+        title="Welcome back!"
+        subtitle="Manage your family's health with Pariwar+ AI Health Buddy"
+      />
       
-      <div className="container mx-auto px-4 py-8 mt-16">
-        {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, {user?.email?.split('@')[0]}!
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your family's health with Pariwar+ AI Health Buddy
-          </p>
-        </div>
+      <div className="container mx-auto px-4 py-8">
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
